@@ -19,6 +19,16 @@ func NewHandler(r *repository.Repository) *Handler {
 	}
 }
 
+func (h Handler) GetCityItog(ctx *gin.Context) {
+	itog, err := h.Repository.GetItogCity()
+	if err != nil {
+		logrus.Error(err)
+	}
+	ctx.HTML(http.StatusOK, "result.html", gin.H{
+		"itog": itog,
+	})
+}
+
 func (h *Handler) GetCitys(ctx *gin.Context) {
 	var events []repository.Events_City
 	var err error
@@ -45,13 +55,13 @@ func (h *Handler) GetCitys(ctx *gin.Context) {
 
 func (h *Handler) GetCity(ctx *gin.Context) {
 
-	idStr := ctx.Param("id")
-	id, err := strconv.Atoi(idStr)
+	idStr := ctx.Param("City")
+	city, err := strconv.Atoi(idStr)
 	if err != nil {
 		logrus.Error(err)
 	}
 
-	order, err := h.Repository.GetCity(id)
+	order, err := h.Repository.GetCity(city)
 	if err != nil {
 		logrus.Error(err)
 	}

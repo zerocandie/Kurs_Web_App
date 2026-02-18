@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Итоги голосований</title>
+    <link rel="stylesheet" href="/static/styles/result_style.css">
+</head>
+<body>
+<header class="header">
+    <div class="header-logo">
+        <a href="/hello"><img src="/static/img/home.svg" alt="home"></a>
+    </div>
+    <nav class="nav">
+        <a href="#">О нас</a>
+        <a href="#">Итоги</a>
+        <a href="#" class="login-btn">Войти</a>
+    </nav>
+</header>
+
+<main class="container">
+    <h1 class="page-title">Итоги голосований</h1>
+
+    <div class="itog-grid">
+        {{ range .Itogs }}
+        <p>Тест: найдено событий {{ len .Itogs }}</p> <!-- Покажет число -->
+        <div class="itog-card">
+            <div class="card-itog">
+                <img src="/static/img/event_{{.ID}}.jpeg" alt="{{ .Title }}">
+            </div>
+            <div class="card-content">
+                <h3>{{.Title}}</h3>
+                <button class="download-btn">Скачать результаты</button>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</main>
+</body>
+</html>

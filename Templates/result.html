@@ -23,14 +23,13 @@
 
     <div class="itog-grid">
         {{ range .Itogs }}
-        <p>Тест: найдено событий {{ len .Itogs }}</p> <!-- Покажет число -->
         <div class="itog-card">
             <div class="card-itog">
                 <img src="/static/img/event_{{.ID}}.jpeg" alt="{{ .Title }}">
             </div>
             <div class="card-content">
                 <h3>{{.Title}}</h3>
-                <button class="download-btn">Скачать результаты</button>
+                <button class="download-btn">{{ .ITOG}}</button>
             </div>
         </div>
         {{ end }}

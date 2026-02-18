@@ -20,12 +20,12 @@ func NewHandler(r *repository.Repository) *Handler {
 }
 
 func (h Handler) GetCityItog(ctx *gin.Context) {
-	itog, err := h.Repository.GetItogCity()
+	Itogs, err := h.Repository.GetItogCity()
 	if err != nil {
 		logrus.Error(err)
 	}
 	ctx.HTML(http.StatusOK, "result.html", gin.H{
-		"itog": itog,
+		"Itogs": Itogs,
 	})
 }
 

@@ -1,1 +1,28 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace  # Удаляет пробелы в конце строк
+      - id: end-of-file-fixer    # Добавляет пустую строку в конец файла
+      - id: check-merge-conflicts # Проверяет на конфликты слияния
+      - id: check-added-large-files # Предупреждает о больших файлах
 
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.55.2
+    hooks:
+      - id: golangci-lint
+
+
+  - repo: local
+    hooks:
+      - id: gofmt
+        name: gofmt
+        entry: gofmt
+        language: system
+        types: [go]
+        args: ["-w"] # Форматирует файлы inplace
+      - id: goimports
+        name: goimports
+        entry: goimports
+        language: system
+        types: [go]

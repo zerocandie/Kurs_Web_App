@@ -20,7 +20,7 @@ func main() {
 		logrus.Fatalf("error loading config: %v", err)
 	}
 
-	postgresString := dsn.FromEnf()
+	postgresString := dsn.FromEnv()
 	fmt.Println(postgresString)
 
 	rep, errRep := repository.New(postgresString)
@@ -32,4 +32,5 @@ func main() {
 
 	application := pkg.NewApp(conf, router, hand)
 	application.RunApp()
+
 }

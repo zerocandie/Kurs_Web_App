@@ -1,0 +1,154 @@
+/* ============================================
+   HEADER (как в index_style.css)
+   ============================================ */
+.main-header {
+    background-color: #64B5F6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.header-logo img {
+    width: 60px;
+    height: 55px;
+    display: block;
+}
+
+.header-nav {
+    display: flex;
+    gap: 30px;
+}
+
+.header-nav a {
+    text-decoration: none;
+    color: #000;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 16px 18px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.header-nav a:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* ============================================
+   BODY & MAIN
+   ============================================ */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+main {
+    width: 100%;
+    max-width: 1200px;
+    padding: 100px 20px 40px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ============================================
+   CITIES GRID (как events-grid)
+   ============================================ */
+.CardCity {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    padding: 0 20px 40px;
+    width: 100%;
+}
+
+/* ============================================
+   CITY CARD (как event-card)
+   ============================================ */
+.CityAll {
+    background-color: #f1f0f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+    padding: 18px;
+    text-align: center;
+}
+
+.CityAll:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.CityNamed {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* ============================================
+   CARD IMAGE
+   ============================================ */
+.card-image {
+    height: 200px;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ============================================
+   RESPONSIVE (адаптивность)
+   ============================================ */
+@media (max-width: 1024px) {
+    .CardCity {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .CardCity {
+        grid-template-columns: 1fr;
+    }
+
+    .main-header {
+        padding: 0 20px;
+        height: 70px;
+    }
+
+    .header-nav a {
+        font-size: 14px;
+    }
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+main p {
+    text-align: center;
+    font-size: 18px;
+    color: #6c757d;
+    margin-top: 40px;
+}

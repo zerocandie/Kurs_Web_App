@@ -21,6 +21,7 @@ func NewConfig() (*Config, error) {
 	if os.Getenv("CONFIG_NAME") != "" {
 		configName = os.Getenv("CONFIG_NAME")
 	}
+
 	viper.SetConfigName(configName)
 	viper.SetConfigType("toml")
 	viper.AddConfigPath("config")
@@ -31,9 +32,10 @@ func NewConfig() (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	cfg := &Config{}
-	err = viper.Unmarshal(cfg)
 
+	cfg := &Config{}           // создаем объект конфига
+	err = viper.Unmarshal(cfg) // читаем информацию из файла,
+	// конвертируем и затем кладем в нашу переменную cfg
 	if err != nil {
 		return nil, err
 	}

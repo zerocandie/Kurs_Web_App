@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Города</title>
+    <link rel="stylesheet" href="/static/styles/city_style.css">
+</head>
+<body>
+<header class="main-header">
+    <div class="header-logo">
+        <a href="/events"><img src="/static/img/home.svg" alt="home"></a>
+    </div>
+    <nav class="header-nav">
+        <a href="#">О нас</a>
+        <a href="/result">Итоги</a>
+        <a href="/AllCity">Города</a>
+        <a href="#">Войти</a>
+    </nav>
+</header>
+
+<main>
+    {{ if .city }}
+    <div class="CardCity">
+        {{ range .city }}
+        <div class="CityAll">
+            <div class="card-image">
+                <img src="{{ .Img }}" alt="{{ .Title }}">
+            </div>
+            <p class="CityNamed">Город {{ .Title }}</p>
+        </div>
+        {{ end }}
+    </div>
+    {{ else }}
+    <p>Городов пока нет</p>
+    {{ end }}
+</main>
+</body>
+</html>

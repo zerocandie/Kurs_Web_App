@@ -1,15 +1,79 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Metoda</title>
-  <link rel="stylesheet" href="/static/styles/order_style.css">
+    <meta charset="UTF-8">
+    <title>{{ .event.Title }} - Metoda</title>
+    <link rel="stylesheet" href="/static/styles/order_style.css">
 </head>
-<header>
-  <h1>
-    <h1>
-      <a href="/hello"><img src="/static/img/home.svg" alt="home"></a>
-    </h1>
-  </h1>
+
+<body>
+<header class="main-header">
+  <div class="header-logo">
+    <a href="/events"><img src="/static/img/home.svg" alt="home"></a>
+  </div>
+  <nav class="header-nav">
+    <a href="#">О нас</a>
+    <a href="/result">Итоги</a>
+    <a href="/AllCity">Города</a>
+    <a href="#">Войти</a>
+  </nav>
 </header>
-<h1>Информация о заказе №{{ .order.ID }}</h1>
-<h2>Заголовок: {{ .order.Title }}</h2>
+
+<main>
+  <div class="order-container">
+    <!-- Изображение события -->
+    <div class="order-image">
+      <img src="{{ .event.Img }}" alt="{{ .event.Title }}">
+    </div>
+
+    <!-- Информация о событии -->
+    <div class="order-info">
+      <h1 class="order-title">{{ .event.Title }}</h1>
+
+      <div class="order-meta">
+        <div class="meta-item">
+          <span class="meta-icon"> </span>
+          <span>Город: {{ .event.City.Title }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon"></span>
+          <span>{{ .event.EventDate.Format "02.01.2006" }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon"></span>
+          <span>{{ .event.Location }}</span>
+        </div>
+      </div>
+
+      <div class="order-description">
+        <h3>О голосовании</h3>
+        <p>{{ .event.About }}</p>
+      </div>
+
+      <!-- Статистика -->
+      <div class="order-stats">
+        <div class="stat-box">
+          <span class="stat-value">{{ .event.CurrentParticipants }}</span>
+          <span class="stat-label">Проголосовало</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-value">{{ .event.MaxParticipants }}</span>
+          <span class="stat-label">Макс. участников</span>
+        </div>
+      </div>
+
+      <!-- Кнопка голосования -->
+      <div class="order-actions">
+        <form action="/events/{{ .event.ID }}/vote" method="POST">
+          <button type="submit" class="vote-button">
+            <span></span> Проголосовать
+          </button>
+        </form>
+
+        <a href="/events" class="back-button">← Назад к событиям</a>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
 </html>

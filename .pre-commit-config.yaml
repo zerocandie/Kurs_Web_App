@@ -6,3 +6,10 @@ repos:
       - id: go-imports    # оптимизация импортов
       - id: go-vet        # статический анализ
       - id: go-mod-tidy   # проверка чистоты go.mod
+
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-added-large-files
+        args: [ '--maxkb=1024' ]

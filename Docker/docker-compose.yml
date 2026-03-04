@@ -1,0 +1,100 @@
+version: "3.9"
+x-minio-common: &minio-common
+  image: quay.io/minio/minio:RELEASE.2022-10-15T19-57-03Z # устанавливаем image
+  command: server --console-address ":9001" http://minio{1...4}/data{1...2}
+  environment: # env конфигурация, подробнее: https://github.com/KaymeKaydex/web-2022/tree/go-lab2/tutorials/lab2/golang#поговорим-про-переменные-окружения
+    MINIO_ACCESS_KEY: Nikita
+    MINIO_SECRET_KEY: minio124
+  expose:
+    - "9000" # открыть порты
+    - "9001"
+
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    interval: 30s
+    timeout: 20s
+    retries: 3
+services:
+  postgres:
+    image: postgres:14.8-alpine3.18
+    environment:
+      POSTGRES_DB: "KyrsWorkWeb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1qaz@WSX"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ../2. Init Database:/docker-entrypoint-initdb.d
+      - habrdb-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d KyrsWorkWeb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+  minio1:
+    <<: *minio-common
+    hostname: minio1 # указываем что адрес внутри подсети docker будет http://minio1:9000/ и на порту 9001 для админки соотвественно
+    volumes:
+      - data1-1:/data1
+      - data1-2:/data2
+
+  minio2: # аналогично ставим 2-4 ноды
+    <<: *minio-common
+    hostname: minio2
+    volumes:
+      - data2-1:/data1
+      - data2-2:/data2
+
+  minio3:
+    <<: *minio-common
+    hostname: minio3
+    volumes:
+      - data3-1:/data1
+      - data3-2:/data2
+
+  minio4:
+    <<: *minio-common
+    hostname: minio4
+    volumes:
+      - data4-1:/data1
+      - data4-2:/data2
+
+  nginx: # наш еще один сервис в подсети docker будет nginx
+    image: nginx:1.19.2-alpine # исходники сервиса взять отсюда
+    hostname: nginx # hostname внутри подсети docker будет nginx
+    volumes:
+
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "9000:9000" # форвардим порт 9000 из нашей локальной сети(localhost) (forward port) на исхоодный(внутри подсети docker)(source port)
+      - "9001:9001"
+    depends_on: # не запускай nginx пока не запустится весь кластер minio
+      - minio1
+      - minio2
+      - minio3
+      - minio4
+
+volumes:
+  habrdb-data:
+  data1-1:
+  data1-2:
+  data2-1:
+  data2-2:
+  data3-1:
+  data3-2:
+  data4-1:
+  data4-2:

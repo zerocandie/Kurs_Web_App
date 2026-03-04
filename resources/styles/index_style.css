@@ -6,33 +6,50 @@ body {
     background-color: #fff;
 }
 
+/* ============================================
+   HEADER (как в index_style.css)
+   ============================================ */
 .main-header {
-    background-color: #64B5F6; /* Lighter blue matching the screenshot */
+    background-color: #64B5F6;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    height: 50px; /* Reduced height to match screenshot */
+    padding: 0 5px;
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
 }
 
 .header-logo img {
-    width: 50px;
-    height: 45px;
+    width: 60px;
+    height: 55px;
     display: block;
 }
 
 .header-nav {
     display: flex;
-    gap: 25px; /* Reduced gap for tighter spacing */
+    gap: 30px;
 }
 
 .header-nav a {
     text-decoration: none;
-    color: #000; /* Changed to black text */
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    color: #000;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
 }
+
+.header-nav a:hover {
+    background: rgba(255,255,255,0.3);
+}
+
 
 /* Search section styling */
 .search-section {

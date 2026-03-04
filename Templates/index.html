@@ -6,36 +6,37 @@
 
 <header class="main-header">
     <div class="header-logo">
-        <a href="/hello"><img src="/static/img/home.svg" alt="home"></a>
+        <a href="/events"><img src="/static/img/home.svg" alt="home"></a>
     </div>
     <nav class="header-nav">
         <a href="#">О нас</a>
         <a href="/result">Итоги</a>
+        <a href="/AllCity/"> Города</a>
         <a href="#">Войти</a>
     </nav>
 </header>
 
 <main>
     <div class="search-section">
-        <form action="/hello" method="GET" class="search-form">
+        <form action="/events" method="GET" class="search-form">
             <input type="text" name="query" placeholder="Найди свой город..." value="{{ .query }}">
-            <button type="submit"><img src="/static/img/search.png" alt="search"></button>
+            <button type="submit"><img src="/static/img/search.svg" alt="search"></button>
         </form>
     </div>
 
     <div class="events-grid">
-        {{ range .events }}
+        {{ range .city }}
         <div class="event-card">
             <div class="card-image">
-                <!-- Здесь будет картинка, например, здание администрации для Норильска -->
-                <img src="/static/img/event_{{ .ID }}.jpeg" alt="{{ .Title }}">
+                <img src="{{ .Img }}" alt="{{ .Title }}">
             </div>
             <div class="card-content">
                 <h3>{{ .Title }}</h3>
-                <p class="city-label">Город: {{ .City }}</p>
-                <a href="/order/{{ .ID }}" class="vote-button">Голосовать</a>
+                <p class="city-label">Город: {{ .City.Title }}</p>
+                <a href="/events/{{ .ID }}" class="vote-button">Голосовать</a>
             </div>
         </div>
         {{ end }}
     </div>
+    <a href="/events/create" class="vote-button">Создай своё мероприятие</a>
 </main>

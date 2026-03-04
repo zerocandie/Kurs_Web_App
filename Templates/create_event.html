@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать событие - Metoda</title>
+    <link rel="stylesheet" href="/static/styles/create_event_style.css">
+</head>
+<body>
+<header class="main-header">
+    <div class="header-logo">
+        <a href="/events"><img src="/static/img/home.svg" alt="home"></a>
+    </div>
+    <nav class="header-nav">
+        <a href="#">О нас</a>
+        <a href="/result">Итоги</a>
+        <a href="/AllCity">Города</a>
+        <a href="#">Войти</a>
+    </nav>
+</header>
+
+<main>
+    <div class="form-container">
+        <h1>Создать новое событие</h1>
+
+        <form action="/events/create" method="POST" class="event-form">
+            <!-- Название -->
+            <div class="form-group">
+                <label for="title">Название события *</label>
+                <input type="text" id="title" name="title" required placeholder="Например: Выбор молодёжной столицы">
+            </div>
+
+
+            <div class="form-group">
+                <label for="img">Загрузить изображение</label>
+                <input type="file" id="img" name="img" accept="image/*">
+            </div>
+
+
+            <div class="form-group">
+                <label for="about">Описание *</label>
+                <textarea id="about" name="about" rows="5" required placeholder="Расскажите о событии..."></textarea>
+            </div>
+
+
+            <div class="form-group">
+                <label for="location">Место проведения</label>
+                <input type="text" id="location" name="location" placeholder="Например: Парк Горького, Москва">
+            </div>
+
+
+            <div class="form-group">
+                <label for="event_date">Дата события *</label>
+                <input type="date" id="event_date" name="event_date" required>
+            </div>
+
+
+            <div class="form-group">
+                <label for="max_participants">Макс. количество участников</label>
+                <input type="number" id="max_participants" name="max_participants" min="1" value="100">
+            </div>
+
+
+            <div class="form-group">
+                <label for="city_id">Город *</label>
+                <select id="city_id" name="city_id" required>
+                    <option value="">Выберите город</option>
+                    {{ range .cities }}
+                    <option value="{{ .ID }}">{{ .Title }}</option>
+                    {{ end }}
+                </select>
+            </div>
+
+
+            <div class="form-actions">
+                <button type="submit" class="submit-button">Создать событие</button>
+                <a href="/events" class="cancel-button">Отмена</a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

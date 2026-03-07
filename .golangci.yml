@@ -1,0 +1,57 @@
+run:
+  timeout: 5m
+  skip-dirs:
+    - vendor
+    - testdata
+    - examples
+  skip-files:
+    - ".*\\.pb\\.go"
+    - ".*\\.gen\\.go"
+
+linters:
+  disable-all: true
+  enable:
+
+    - errcheck        # Проверка необработанных ошибок
+    - gosimple        # Упрощение кода
+    - govet           # Стандартный анализатор Go
+    - ineffassign     # Поиск неэффективных присваиваний
+    - staticcheck     # Расширенный статический анализ
+    - unused          # Поиск неиспользуемого кода
+    - typecheck       # Проверка типов (как при компиляции)
+
+
+    - gofmt           # Проверка форматирования (если не используешь goimports)
+    - goimports       # Автоматическое исправление импортов и форматирование
+    - misspell        # Поиск опечаток в комментариях и строках
+
+
+    - gocritic        # Мощный линтер с множеством проверок
+    - nolintlint      # Проверка правильности использования комментариев //nolint
+    - revive          # Замена golint, много правил стиля
+    - unparam
+
+linters-settings:
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+  goimports:
+    local-prefixes: github.com/your-org/your-project
+
+issues:
+
+  exclude-use-default: false
+
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
+
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gocritic
+        - errcheck

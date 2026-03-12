@@ -10,8 +10,6 @@
 *   **Безопасность:** Высокая устойчивость к нагрузкам и защищенные протоколы передачи данных.
 *   **Прозрачность:** Использование современных алгоритмов для проверки подлинности голоса.
 
----
-
 ## 🛠 Технологический стек
 
 ### Backend
@@ -33,4 +31,46 @@
 *   React/dotnet
 *   Установленный `golangci-lint`
 
-### Установка и запуск
+## 📐 Соглашения по именованию
+
+### Backend (Go)
+| Элемент | Стиль | Пример |
+|---------|-------|--------|
+| Файлы | `snake_case` (рекомендуется) | `user_handler.go`, `event_repository.go` |
+| Пакеты | `lowercase` | `package handler` |
+| Экспортируемые сущности | `PascalCase` | `type Handler`, `func NewHandler()` |
+| Внутренние сущности | `camelCase` | `func (h *Handler) parseInput()` |
+
+### Frontend (React + TypeScript)
+| Элемент | Стиль | Пример |
+|---------|-------|--------|
+| Компоненты | `PascalCase` | `CreateEventForm.tsx` |
+| Хуки/утилиты | `camelCase` | `useAuth.ts`, `apiClient.ts` |
+| Переменные/функции | `camelCase` | `const eventCode`, `function fetchVotes()` |
+| Типы/интерфейсы | `PascalCase` | `interface VotePayload` |
+
+> ⚠️ В текущей версии проекта файлы бэкенда используют `PascalCase` (например, `Handler.go`).
+> Это отклонение от стандарта будет исправлено в следующем релизе.
+> 
+> 
+> ### Запуск проекта
+> ## Установка и запуск
+
+### Требования
+- Docker и Docker Compose
+- Go 1.21+
+- Make (опционально, для удобства)
+
+---
+
+### Шаг 1: Запуск базы данных (Docker)
+
+```bash
+# Запустить только контейнер с БД
+docker-compose up -d db
+
+# Проверить, что БД поднялась
+docker-compose ps
+
+# Просмотреть логи (если что-то не так)
+docker-compose logs -f db

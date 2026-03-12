@@ -6,7 +6,12 @@ repos:
       - id: go-imports    # оптимизация импортов
       - id: go-vet        # статический анализ
       - id: go-mod-tidy   # проверка чистоты go.mod
-
+      - id: go
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.61.0
+    hooks:
+      - id: golangci-lint
+        args: [ '--timeout=3m' ]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0

@@ -1,0 +1,14 @@
+$kind: http-request
+url: http://localhost:80/api/vote-items
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "event_id": 1,
+        "priority": 1,
+        "value": 100
+    }
+order: 9000

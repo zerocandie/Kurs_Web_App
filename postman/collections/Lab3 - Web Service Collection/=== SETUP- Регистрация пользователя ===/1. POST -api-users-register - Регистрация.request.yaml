@@ -1,0 +1,7 @@
+$kind: http-request
+name: 1. POST /api/users/register - Регистрация
+url: http://localhost:8080/api/users/register
+method: POST
+headers:
+  Content-Type: application/json
+order: 1000

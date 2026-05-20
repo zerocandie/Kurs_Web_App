@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:80/api/votes/1/complete
+method: PUT
+order: 17000

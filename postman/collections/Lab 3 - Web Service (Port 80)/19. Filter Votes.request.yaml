@@ -1,0 +1,7 @@
+$kind: http-request
+url: http://localhost:80/api/votes?status=formed&date_from=2026-01-01
+method: GET
+queryParams:
+  status: formed
+  date_from: 2026-01-01
+order: 19000

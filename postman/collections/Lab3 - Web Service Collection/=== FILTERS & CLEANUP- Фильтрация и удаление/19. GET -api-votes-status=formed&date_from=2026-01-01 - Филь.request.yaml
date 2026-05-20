@@ -1,0 +1,8 @@
+$kind: http-request
+name: 19. GET /api/votes?status=formed&date_from=2026-01-01 - Фильтрация заявок
+url: http://localhost:8080/api/votes?status=formed&date_from=2026-01-01
+method: GET
+queryParams:
+  status: formed
+  date_from: 2026-01-01
+order: 1000

@@ -1,0 +1,5 @@
+$kind: http-request
+name: 20. DELETE /api/votes/1 - Удалить заявку (мягкое удаление)
+url: http://localhost:8080/api/votes/1
+method: DELETE
+order: 2000

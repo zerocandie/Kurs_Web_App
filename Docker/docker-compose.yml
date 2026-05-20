@@ -2,7 +2,7 @@ version: "3.9"
 x-minio-common: &minio-common
   image: quay.io/minio/minio:RELEASE.2022-10-15T19-57-03Z # устанавливаем image
   command: server --console-address ":9001" http://minio{1...4}/data{1...2}
-  environment: # env конфигурация, подробнее: https://github.com/KaymeKaydex/web-2022/tree/go-lab2/tutorials/lab2/golang#поговорим-про-переменные-окружения
+  environment:
     MINIO_ACCESS_KEY: Nikita
     MINIO_SECRET_KEY: minio124
   expose:

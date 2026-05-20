@@ -1,0 +1,5 @@
+$kind: http-request
+name: 4. GET /api/events - Список услуг (без фильтров)
+url: http://localhost:8080/api/events
+method: GET
+order: 2000

@@ -1,0 +1,7 @@
+$kind: http-request
+name: 6. POST /api/events - Добавление услуги (JSON, без файлов)
+url: http://localhost:8080/api/events
+method: POST
+headers:
+  Content-Type: application/json
+order: 4000

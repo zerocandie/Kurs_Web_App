@@ -1,0 +1,5 @@
+$kind: http-request
+name: "15. PUT /api/votes/1/complete - Завершить черновик (ОШИБКА: нельзя)"
+url: http://localhost:8080/api/votes/1/complete
+method: PUT
+order: 1000

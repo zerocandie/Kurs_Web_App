@@ -1,0 +1,5 @@
+$kind: http-request
+name: 3. GET /api/cities - Список городов
+url: http://localhost:8080/api/cities
+method: GET
+order: 1000

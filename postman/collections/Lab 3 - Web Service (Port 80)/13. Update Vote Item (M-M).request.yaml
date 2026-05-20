@@ -1,0 +1,13 @@
+$kind: http-request
+url: http://localhost:80/api/vote-items/1
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "priority": 3,
+        "value": 150
+    }
+order: 13000

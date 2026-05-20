@@ -1,0 +1,5 @@
+$kind: http-request
+name: 16. PUT /api/votes/1/form - Сформировать заявку (расчёт формулы)
+url: http://localhost:8080/api/votes/1/form
+method: PUT
+order: 2000

@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:80/api/vote-items/2
+method: DELETE
+order: 14000

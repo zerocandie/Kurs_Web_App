@@ -1,0 +1,5 @@
+$kind: http-request
+name: 18. PUT /api/votes/1/reject - Отклонить заявку (если нужно)
+url: http://localhost:8080/api/votes/1/reject
+method: PUT
+order: 4000

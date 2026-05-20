@@ -1,0 +1,5 @@
+$kind: http-request
+name: 14. DELETE /api/vote-items/2 - Удалить услугу из заявки
+url: http://localhost:8080/api/vote-items/2
+method: DELETE
+order: 3000

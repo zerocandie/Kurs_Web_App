@@ -1,0 +1,5 @@
+$kind: http-request
+name: 12. GET /api/votes/1 - Просмотр заявки с услугами
+url: http://localhost:8080/api/votes/1
+method: GET
+order: 1000

@@ -1,0 +1,7 @@
+$kind: http-request
+url: http://localhost:80/api/events?search=concert&city_id=1
+method: GET
+queryParams:
+  search: concert
+  city_id: "1"
+order: 5000

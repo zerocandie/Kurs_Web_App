@@ -1,0 +1,5 @@
+$kind: http-request
+name: 21. POST /api/users/logout - Выход из системы
+url: http://localhost:8080/api/users/logout
+method: POST
+order: 3000

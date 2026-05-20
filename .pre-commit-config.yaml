@@ -2,9 +2,8 @@ repos:
   - repo: https://github.com/tekwizely/pre-commit-golang
     rev: v1.0.0-rc.1
     hooks:
-      - id: go-fmt # форматирование
-      - id: go-mod-tidy # проверка чистоты go.mod
-
+      - id: go-fmt
+      - id: go-mod-tidy
 
   - repo: https://github.com/golangci/golangci-lint
     rev: v2.11.3
@@ -16,4 +15,5 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-added-large-files
-        args: [ '--maxkb=1024' ]
+        args: ['--maxkb=1024']
+      - id: check-merge-conflict

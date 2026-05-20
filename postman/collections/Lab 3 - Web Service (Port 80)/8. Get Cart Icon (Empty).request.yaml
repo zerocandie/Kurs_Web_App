@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:80/api/votes/cart
+method: GET
+order: 8000

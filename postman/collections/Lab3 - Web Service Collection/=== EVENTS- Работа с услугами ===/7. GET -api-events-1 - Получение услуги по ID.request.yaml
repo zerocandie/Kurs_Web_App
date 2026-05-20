@@ -1,0 +1,5 @@
+$kind: http-request
+name: 7. GET /api/events/1 - Получение услуги по ID
+url: http://localhost:8080/api/events/1
+method: GET
+order: 5000

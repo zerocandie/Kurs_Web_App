@@ -1,0 +1,7 @@
+$kind: http-request
+name: 9. POST /api/vote-items - Добавить услугу 1 в черновик
+url: http://localhost:8080/api/vote-items
+method: POST
+headers:
+  Content-Type: application/json
+order: 2000

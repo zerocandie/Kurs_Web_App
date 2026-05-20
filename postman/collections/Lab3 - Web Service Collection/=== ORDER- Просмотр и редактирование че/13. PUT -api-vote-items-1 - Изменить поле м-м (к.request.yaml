@@ -1,0 +1,7 @@
+$kind: http-request
+name: 13. PUT /api/vote-items/1 - Изменить поле м-м (количество/приоритет)
+url: http://localhost:8080/api/vote-items/1
+method: PUT
+headers:
+  Content-Type: application/json
+order: 2000

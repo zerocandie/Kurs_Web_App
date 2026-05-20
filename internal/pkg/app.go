@@ -15,23 +15,20 @@ type Application struct {
 	Handler *handler.Handler
 }
 
-func NewApp(c *config.Config, r *gin.Engine, h *handler.Handler) *Application {
+func NewApp(conf *config.Config, router *gin.Engine, handler *handler.Handler) *Application {
 	return &Application{
-		Config:  c,
-		Router:  r,
-		Handler: h,
+		Config:  conf,
+		Router:  router,
+		Handler: handler,
 	}
 }
 
+// RunApp только запускает сервер. Регистрация роутов должна быть в main.go!
 func (a *Application) RunApp() {
-	logrus.Info("Server start up")
+	logrus.Infof("🚀 Server starting on %s:%d", a.Config.ServiceHost, a.Config.ServicePort)
 
-	a.Handler.RegisterRoutes(a.Router)
-	a.Handler.RegisterStatic(a.Router)
-
-	serverAddress := fmt.Sprintf("%s:%d", a.Config.ServiceHost, a.Config.ServicePort)
-	if err := a.Router.Run(serverAddress); err != nil {
+	err := a.Router.Run(fmt.Sprintf("%s:%d", a.Config.ServiceHost, a.Config.ServicePort))
+	if err != nil {
 		logrus.Fatal(err)
 	}
-	logrus.Info("Server down")
 }

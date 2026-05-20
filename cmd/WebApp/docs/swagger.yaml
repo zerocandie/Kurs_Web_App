@@ -1,0 +1,695 @@
+basePath: /api
+definitions:
+  app.pingResp:
+    properties:
+      status:
+        type: string
+    type: object
+  handler.CreateEventInput:
+    description: Данные для создания новой услуги/события
+    properties:
+      city_id:
+        example: 1
+        type: integer
+      description:
+        example: Annual rock music festival
+        type: string
+      event_date:
+        example: "2026-12-31"
+        type: string
+      image:
+        example: festival_poster.jpg
+        type: string
+      location:
+        example: Olympic Stadium
+        type: string
+      title:
+        example: Rock Festival
+        type: string
+      video:
+        example: promo.mp4
+        type: string
+    required:
+    - city_id
+    - event_date
+    - title
+    type: object
+  handler.LoginInput:
+    description: Учетные данные для входа
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      password:
+        example: SecurePass123!
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  handler.RegisterInput:
+    description: Данные для создания аккаунта
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      login:
+        example: john_doe
+        maxLength: 100
+        minLength: 3
+        type: string
+      password:
+        example: SecurePass123!
+        minLength: 8
+        type: string
+    required:
+    - email
+    - login
+    - password
+    type: object
+  handler.VoteItemInput:
+    description: Данные для many-to-many связи
+    properties:
+      event_id:
+        example: 1
+        type: integer
+      priority:
+        example: 1
+        minimum: 1
+        type: integer
+      value:
+        example: 100
+        minimum: 0
+        type: integer
+    required:
+    - event_id
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@evoting.ru
+    name: API Support
+    url: https://vk.com/bmstu_schedule
+  description: Backend для системы электронного голосования с управлением услугами,
+    заявками и пользователями
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: E-Voting System API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Email и пароль
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Токен и данные
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Ошибка валидации
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Неверные данные
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Вход в систему
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Выход успешен
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Выход
+      tags:
+      - Auth
+  /cities:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список городов
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Список городов
+      tags:
+      - Cities
+  /events:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Поиск по названию
+        in: query
+        name: search
+        type: string
+      - description: ID города
+        in: query
+        name: city_id
+        type: integer
+      - description: Дата от (YYYY-MM-DD)
+        in: query
+        name: date_from
+        type: string
+      - description: Дата до (YYYY-MM-DD)
+        in: query
+        name: date_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список услуг
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить список услуг с фильтрацией
+      tags:
+      - Events
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные услуги
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateEventInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Создано
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Ошибка валидации
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Создать услугу
+      tags:
+      - Events
+  /events/{id}:
+    get:
+      parameters:
+      - description: ID услуги
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Данные услуги
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Невалидный ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Не найдено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить услугу по ID
+      tags:
+      - Events
+  /ping/{name}:
+    get:
+      description: very very friendly response
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.pingResp'
+      summary: Show hello text
+      tags:
+      - Tests
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.RegisterInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Пользователь создан
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Ошибка валидации
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Регистрация
+      tags:
+      - Auth
+  /vote-items:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные связи
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.VoteItemInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Добавлено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Ошибка валидации
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Добавить услугу в заявку
+      tags:
+      - VoteItems
+  /vote-items/{event_id}:
+    delete:
+      parameters:
+      - description: ID связи
+        in: path
+        name: event_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Ошибка
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Не найдено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Удалить услугу из заявки
+      tags:
+      - VoteItems
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID связи
+        in: path
+        name: event_id
+        required: true
+        type: integer
+      - description: Новые данные
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.VoteItemInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Обновлено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Ошибка
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Не найдено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Изменить услугу в заявке
+      tags:
+      - VoteItems
+  /votes:
+    get:
+      parameters:
+      - description: Статус
+        in: query
+        name: status
+        type: string
+      - description: Дата от
+        in: query
+        name: date_from
+        type: string
+      - description: Дата до
+        in: query
+        name: date_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список заявок
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Список заявок с фильтрацией
+      tags:
+      - Votes
+  /votes/{id}:
+    delete:
+      parameters:
+      - description: ID заявки
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Ошибка
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Не найдено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Удалить заявку
+      tags:
+      - Votes
+    get:
+      parameters:
+      - description: ID заявки
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Данные заявки
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Невалидный ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Не найдено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Заявка по ID
+      tags:
+      - Votes
+  /votes/{id}/complete:
+    put:
+      parameters:
+      - description: ID заявки
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Заявка завершена
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Ошибка
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Доступ запрещён
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Не найдено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Завершить заявку (модератор)
+      tags:
+      - Votes
+  /votes/{id}/form:
+    put:
+      parameters:
+      - description: ID заявки
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Заявка сформирована
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Ошибка
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Не найдено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Сформировать заявку
+      tags:
+      - Votes
+  /votes/{id}/reject:
+    put:
+      parameters:
+      - description: ID заявки
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Заявка отклонена
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Ошибка
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Доступ запрещён
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Не найдено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Отклонить заявку (модератор)
+      tags:
+      - Votes
+  /votes/cart:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Данные корзины
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Иконка корзины
+      tags:
+      - Votes
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    description: 'JWT access token. Формат: `Bearer <token>`'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
